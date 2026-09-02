@@ -1,1199 +1,1224 @@
-```html
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
 
-    <meta
-        name="description"
-        content="智慧園藝管理 - 植物個體、血統、生命履歷與場域管理系統"
-    >
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-    <meta name="theme-color" content="#2f6b4f">
+  <meta
+    name="theme-color"
+    content="#2f6b4f"
+  >
 
-    <title>智慧園藝管理</title>
+  <meta
+    name="description"
+    content="智慧園藝管理｜植物個體、血統親緣、生命履歷與場域管理"
+  >
 
-    <link rel="stylesheet" href="css/style.css">
+  <title>智慧園藝管理</title>
 
-    <link rel="manifest" href="manifest.json">
+  <link
+    rel="manifest"
+    href="manifest.json"
+  >
+
+  <link
+    rel="stylesheet"
+    href="css/style.css"
+  >
 </head>
 
 <body>
 
-    <!-- =====================================================
-         側邊欄
-    ====================================================== -->
+  <!-- =====================================================
+       側邊導覽
+  ====================================================== -->
 
-    <aside class="sidebar" id="sidebar">
+  <aside class="sidebar">
 
-        <div class="brand">
-            <div class="brand-icon">🌿</div>
+    <div class="sidebar-brand">
 
-            <div>
-                <h1>智慧園藝管理</h1>
-                <span>Smart Gardening Management</span>
-            </div>
+      <div class="brand-icon">
+        🌱
+      </div>
+
+      <div>
+        <h1>智慧園藝管理</h1>
+        <span>Smart Gardening</span>
+      </div>
+
+    </div>
+
+
+    <nav class="sidebar-nav">
+
+      <button
+        class="nav-item active"
+        data-page="dashboard"
+      >
+        <span class="nav-icon">📊</span>
+        <span>儀表板</span>
+      </button>
+
+
+      <button
+        class="nav-item"
+        data-page="plants"
+      >
+        <span class="nav-icon">🌱</span>
+        <span>植物圖鑑</span>
+      </button>
+
+
+      <button
+        class="nav-item"
+        data-page="genealogy"
+      >
+        <span class="nav-icon">🌳</span>
+        <span>血統親緣</span>
+      </button>
+
+
+      <button
+        class="nav-item"
+        data-page="timeline"
+      >
+        <span class="nav-icon">📅</span>
+        <span>生命履歷</span>
+      </button>
+
+
+      <button
+        class="nav-item"
+        data-page="locations"
+      >
+        <span class="nav-icon">📍</span>
+        <span>場域管理</span>
+      </button>
+
+
+      <button
+        class="nav-item"
+        data-page="gallery"
+      >
+        <span class="nav-icon">📷</span>
+        <span>照片履歷</span>
+      </button>
+
+    </nav>
+
+
+    <div class="sidebar-footer">
+      <div>🌿 智慧園藝管理</div>
+      <small>Offline First</small>
+    </div>
+
+  </aside>
+
+
+  <!-- =====================================================
+       手機 Header
+  ====================================================== -->
+
+  <header class="mobile-header">
+
+    <button
+      class="mobile-menu-button"
+      type="button"
+      aria-label="開啟選單"
+    >
+      ☰
+    </button>
+
+    <div class="mobile-title">
+      🌱 智慧園藝管理
+    </div>
+
+  </header>
+
+
+  <!-- =====================================================
+       主內容
+  ====================================================== -->
+
+  <main class="main-content">
+
+
+    <!-- ===================================================
+         Dashboard
+    ==================================================== -->
+
+    <section
+      id="dashboardPage"
+      class="page active"
+    >
+
+      <div class="page-header">
+
+        <div>
+          <div class="page-eyebrow">
+            SMART GARDENING
+          </div>
+
+          <h2>園藝管理儀表板</h2>
+
+          <p>
+            掌握植物數量、存活狀態、場域與繁殖紀錄。
+          </p>
         </div>
 
-        <nav class="navigation">
+      </div>
 
-            <button
-                class="nav-item active"
-                data-page="dashboard"
-            >
-                <span class="nav-icon">🏠</span>
-                <span>儀表板</span>
-            </button>
 
-            <button
-                class="nav-item"
-                data-page="plants"
-            >
-                <span class="nav-icon">🌱</span>
-                <span>植物圖鑑</span>
-            </button>
+      <!-- 統計卡片 -->
 
-            <button
-                class="nav-item"
-                data-page="genealogy"
-            >
-                <span class="nav-icon">🌳</span>
-                <span>血統親緣</span>
-            </button>
+      <div class="stats-grid">
 
-            <button
-                class="nav-item"
-                data-page="timeline"
-            >
-                <span class="nav-icon">🕒</span>
-                <span>生命履歷</span>
-            </button>
+        <div class="stat-card">
 
-            <button
-                class="nav-item"
-                data-page="locations"
-            >
-                <span class="nav-icon">📍</span>
-                <span>場域管理</span>
-            </button>
+          <div class="stat-icon">
+            🌱
+          </div>
 
-            <button
-                class="nav-item"
-                data-page="gallery"
-            >
-                <span class="nav-icon">📸</span>
-                <span>照片履歷</span>
-            </button>
+          <div>
+            <span class="stat-label">
+              植物總數
+            </span>
 
-        </nav>
-
-        <div class="sidebar-footer">
-
-            <div class="storage-status">
-                <span class="status-dot"></span>
-                <span>本機資料已啟用</span>
-            </div>
+            <strong id="totalPlants">
+              0
+            </strong>
+          </div>
 
         </div>
 
-    </aside>
+
+        <div class="stat-card">
+
+          <div class="stat-icon">
+            💚
+          </div>
+
+          <div>
+            <span class="stat-label">
+              目前存活
+            </span>
+
+            <strong id="alivePlants">
+              0
+            </strong>
+          </div>
+
+        </div>
 
 
-    <!-- =====================================================
-         手機頂部列
-    ====================================================== -->
+        <div class="stat-card">
 
-    <header class="mobile-header">
+          <div class="stat-icon">
+            📍
+          </div>
+
+          <div>
+            <span class="stat-label">
+              管理場域
+            </span>
+
+            <strong id="totalLocations">
+              0
+            </strong>
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-icon">
+            ✂️
+          </div>
+
+          <div>
+            <span class="stat-label">
+              分株紀錄
+            </span>
+
+            <strong id="totalSplits">
+              0
+            </strong>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- 快速操作 -->
+
+      <div class="section-header">
+
+        <div>
+          <h3>快速操作</h3>
+        </div>
+
+      </div>
+
+
+      <div class="quick-actions">
 
         <button
-            class="menu-button"
-            id="menuButton"
-            aria-label="開啟選單"
+          id="quickAddPlant"
+          class="quick-action-card"
+          type="button"
         >
-            ☰
+          <span class="quick-action-icon">🌱</span>
+
+          <span>
+            <strong>新增植物</strong>
+            <small>建立新的植物個體</small>
+          </span>
+
         </button>
 
-        <div class="mobile-brand">
-            🌿 智慧園藝管理
+
+        <button
+          id="quickAddLocation"
+          class="quick-action-card"
+          type="button"
+        >
+          <span class="quick-action-icon">📍</span>
+
+          <span>
+            <strong>新增場域</strong>
+            <small>建立植物照護區域</small>
+          </span>
+
+        </button>
+
+
+        <button
+          class="quick-action-card"
+          type="button"
+          data-page="genealogy"
+        >
+          <span class="quick-action-icon">🌳</span>
+
+          <span>
+            <strong>查看親緣</strong>
+            <small>查看植物繁殖關係</small>
+          </span>
+
+        </button>
+
+
+        <button
+          class="quick-action-card"
+          type="button"
+          data-page="timeline"
+        >
+          <span class="quick-action-icon">📅</span>
+
+          <span>
+            <strong>生命履歷</strong>
+            <small>查看植物歷史紀錄</small>
+          </span>
+
+        </button>
+
+      </div>
+
+
+      <!-- 最近植物 -->
+
+      <div class="section-header">
+
+        <div>
+          <h3>最近建立的植物</h3>
+          <p>最近新增的植物個體。</p>
         </div>
 
         <button
-            class="mobile-add-button"
-            id="mobileAddPlantButton"
-            aria-label="新增植物"
+          class="btn btn-secondary"
+          type="button"
+          data-page="plants"
         >
-            ＋
+          查看全部
         </button>
 
-    </header>
+      </div>
 
 
-    <!-- =====================================================
-         主要內容
-    ====================================================== -->
+      <div
+        id="recentPlants"
+        class="plants-grid"
+      ></div>
 
-    <main class="main-content">
+    </section>
 
 
-        <!-- =================================================
-             Dashboard
-        ================================================== -->
 
-        <section
-            class="page active-page"
-            id="dashboard"
-        >
+    <!-- ===================================================
+         植物圖鑑
+    ==================================================== -->
 
-            <div class="page-header">
-
-                <div>
-
-                    <p class="page-eyebrow">
-                        SMART GARDENING
-                    </p>
-
-                    <h2>我的植物總覽</h2>
-
-                    <p class="page-description">
-                        快速掌握目前植物、場域與生命紀錄。
-                    </p>
-
-                </div>
-
-                <button
-                    class="primary-button"
-                    id="addPlantButton"
-                >
-                    <span>＋</span>
-                    新增植物
-                </button>
-
-            </div>
-
-
-            <!-- 統計卡片 -->
-
-            <div class="stats-grid">
-
-                <article class="stat-card">
-
-                    <div class="stat-icon">
-                        🌱
-                    </div>
-
-                    <div class="stat-content">
-
-                        <span class="stat-label">
-                            植物總數
-                        </span>
-
-                        <strong
-                            class="stat-number"
-                            id="totalPlants"
-                        >
-                            0
-                        </strong>
-
-                    </div>
-
-                </article>
-
-
-                <article class="stat-card">
-
-                    <div class="stat-icon">
-                        💚
-                    </div>
-
-                    <div class="stat-content">
-
-                        <span class="stat-label">
-                            存活植物
-                        </span>
-
-                        <strong
-                            class="stat-number"
-                            id="alivePlants"
-                        >
-                            0
-                        </strong>
-
-                    </div>
-
-                </article>
-
-
-                <article class="stat-card">
-
-                    <div class="stat-icon">
-                        📍
-                    </div>
-
-                    <div class="stat-content">
-
-                        <span class="stat-label">
-                            管理場域
-                        </span>
-
-                        <strong
-                            class="stat-number"
-                            id="totalLocations"
-                        >
-                            0
-                        </strong>
-
-                    </div>
-
-                </article>
-
-
-                <article class="stat-card">
-
-                    <div class="stat-icon">
-                        🌳
-                    </div>
-
-                    <div class="stat-content">
-
-                        <span class="stat-label">
-                            分株紀錄
-                        </span>
-
-                        <strong
-                            class="stat-number"
-                            id="totalSplits"
-                        >
-                            0
-                        </strong>
-
-                    </div>
-
-                </article>
-
-            </div>
-
-
-            <!-- 快速操作 -->
-
-            <section class="dashboard-section">
-
-                <div class="section-header">
-
-                    <div>
-
-                        <h3>快速操作</h3>
-
-                        <p>
-                            快速建立植物與管理場域資料。
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <div class="quick-actions">
-
-                    <button
-                        class="quick-action"
-                        id="quickAddPlant"
-                    >
-                        <span class="quick-icon">
-                            🌱
-                        </span>
-
-                        <strong>
-                            新增植物
-                        </strong>
-
-                        <small>
-                            建立新的植物個體
-                        </small>
-                    </button>
-
-
-                    <button
-                        class="quick-action"
-                        id="quickAddLocation"
-                    >
-                        <span class="quick-icon">
-                            📍
-                        </span>
-
-                        <strong>
-                            新增場域
-                        </strong>
-
-                        <small>
-                            建立新的養護區域
-                        </small>
-                    </button>
-
-
-                    <button
-                        class="quick-action"
-                        id="quickViewTimeline"
-                    >
-                        <span class="quick-icon">
-                            🕒
-                        </span>
-
-                        <strong>
-                            生命履歷
-                        </strong>
-
-                        <small>
-                            查看植物歷史紀錄
-                        </small>
-                    </button>
-
-                </div>
-
-            </section>
-
-
-            <!-- 最近植物 -->
-
-            <section class="dashboard-section">
-
-                <div class="section-header">
-
-                    <div>
-
-                        <h3>最近新增的植物</h3>
-
-                        <p>
-                            最近建立的植物個體紀錄。
-                        </p>
-
-                    </div>
-
-
-                    <button
-                        class="text-button"
-                        data-go-page="plants"
-                    >
-                        查看全部 →
-                    </button>
-
-                </div>
-
-
-                <div
-                    class="plants-grid"
-                    id="recentPlants"
-                >
-
-                    <div class="empty-state">
-
-                        <div class="empty-icon">
-                            🌿
-                        </div>
-
-                        <h3>目前還沒有植物紀錄</h3>
-
-                        <p>
-                            建立第一株植物，開始管理你的園藝世界。
-                        </p>
-
-                        <button
-                            class="primary-button"
-                            id="emptyAddPlantButton"
-                        >
-                            ＋ 新增第一株植物
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </section>
-
-        </section>
-
-
-        <!-- =================================================
-             植物圖鑑
-        ================================================== -->
-
-        <section
-            class="page"
-            id="plants"
-        >
-
-            <div class="page-header">
-
-                <div>
-
-                    <p class="page-eyebrow">
-                        PLANT COLLECTION
-                    </p>
-
-                    <h2>植物圖鑑</h2>
-
-                    <p class="page-description">
-                        管理每一株植物的身份、狀態與歷史。
-                    </p>
-
-                </div>
-
-                <button
-                    class="primary-button"
-                    id="plantsPageAddButton"
-                >
-                    ＋ 新增植物
-                </button>
-
-            </div>
-
-
-            <!-- 搜尋與篩選 -->
-
-            <div class="toolbar">
-
-                <div class="search-box">
-
-                    <span>
-                        🔍
-                    </span>
-
-                    <input
-                        type="search"
-                        id="plantSearch"
-                        placeholder="搜尋植物名稱、UID 或分類..."
-                    >
-
-                </div>
-
-
-                <select
-                    id="plantStatusFilter"
-                    class="filter-select"
-                >
-                    <option value="all">
-                        所有狀態
-                    </option>
-
-                    <option value="alive">
-                        存活中
-                    </option>
-
-                    <option value="dead">
-                        已死亡
-                    </option>
-
-                    <option value="sold">
-                        已出售
-                    </option>
-
-                    <option value="gifted">
-                        已贈送
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div
-                class="plants-grid"
-                id="plantsContainer"
-            >
-
-                <div class="empty-state">
-
-                    <div class="empty-icon">
-                        🌱
-                    </div>
-
-                    <h3>植物圖鑑目前是空的</h3>
-
-                    <p>
-                        新增第一株植物開始建立你的園藝資料庫。
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             血統親緣
-        ================================================== -->
-
-        <section
-            class="page"
-            id="genealogy"
-        >
-
-            <div class="page-header">
-
-                <div>
-
-                    <p class="page-eyebrow">
-                        GENEALOGY
-                    </p>
-
-                    <h2>血統親緣</h2>
-
-                    <p class="page-description">
-                        查看植物的分株、父本、母本與後代關係。
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="content-card">
-
-                <div class="empty-state">
-
-                    <div class="empty-icon">
-                        🌳
-                    </div>
-
-                    <h3>尚未選擇植物</h3>
-
-                    <p>
-                        建立植物後，即可查看植物的親緣與分株關係。
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             生命履歷
-        ================================================== -->
-
-        <section
-            class="page"
-            id="timeline"
-        >
-
-            <div class="page-header">
-
-                <div>
-
-                    <p class="page-eyebrow">
-                        LIFE TIMELINE
-                    </p>
-
-                    <h2>生命履歷</h2>
-
-                    <p class="page-description">
-                        記錄每一株植物從購入到現在的完整歷程。
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div
-                class="timeline-container"
-                id="timelineContainer"
-            >
-
-                <div class="empty-state">
-
-                    <div class="empty-icon">
-                        🕒
-                    </div>
-
-                    <h3>目前沒有生命紀錄</h3>
-
-                    <p>
-                        新增植物或建立事件後，紀錄會顯示在這裡。
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             場域管理
-        ================================================== -->
-
-        <section
-            class="page"
-            id="locations"
-        >
-
-            <div class="page-header">
-
-                <div>
-
-                    <p class="page-eyebrow">
-                        GARDEN LOCATIONS
-                    </p>
-
-                    <h2>場域管理</h2>
-
-                    <p class="page-description">
-                        建立不同養護區域，記錄環境與植物配置。
-                    </p>
-
-                </div>
-
-                <button
-                    class="primary-button"
-                    id="addLocationButton"
-                >
-                    ＋ 新增場域
-                </button>
-
-            </div>
-
-
-            <div
-                class="locations-grid"
-                id="locationsContainer"
-            >
-
-                <div class="empty-state">
-
-                    <div class="empty-icon">
-                        📍
-                    </div>
-
-                    <h3>目前還沒有場域</h3>
-
-                    <p>
-                        例如：露台、陽台、溫室、室內或隔離區。
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             照片履歷
-        ================================================== -->
-
-        <section
-            class="page"
-            id="gallery"
-        >
-
-            <div class="page-header">
-
-                <div>
-
-                    <p class="page-eyebrow">
-                        PHOTO HISTORY
-                    </p>
-
-                    <h2>照片履歷</h2>
-
-                    <p class="page-description">
-                        未來將依照時間記錄植物的成長與變化。
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            <div class="content-card">
-
-                <div class="empty-state">
-
-                    <div class="empty-icon">
-                        📸
-                    </div>
-
-                    <h3>尚未建立照片紀錄</h3>
-
-                    <p>
-                        下一階段將加入植物照片上傳與成長比較功能。
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-    </main>
-
-
-    <!-- =====================================================
-         新增 / 編輯植物 Modal
-    ====================================================== -->
-
-    <div
-        class="modal"
-        id="plantModal"
+    <section
+      id="plantsPage"
+      class="page"
     >
 
-        <div class="modal-backdrop"></div>
+      <div class="page-header">
+
+        <div>
+          <div class="page-eyebrow">
+            PLANT COLLECTION
+          </div>
+
+          <h2>植物圖鑑</h2>
+
+          <p>
+            管理每一株植物的個體資料與目前狀態。
+          </p>
+        </div>
 
 
-        <div
-            class="modal-content"
-            role="dialog"
-            aria-modal="true"
+        <button
+          id="addPlantButton"
+          class="btn btn-primary"
+          type="button"
         >
+          ＋ 新增植物
+        </button>
 
-            <div class="modal-header">
+      </div>
 
-                <div>
 
-                    <p class="modal-eyebrow">
-                        PLANT PROFILE
-                    </p>
+      <!-- 搜尋 -->
 
-                    <h2 id="plantModalTitle">
-                        新增植物
-                    </h2>
+      <div class="toolbar">
 
-                </div>
+        <div class="search-box">
 
+          <span>🔎</span>
 
-                <button
-                    class="close-button"
-                    data-close-modal="plantModal"
-                    aria-label="關閉"
-                >
-                    ×
-                </button>
-
-            </div>
-
-
-            <form id="plantForm">
-
-
-                <div class="form-grid">
-
-                    <div class="form-group">
-
-                        <label for="plantName">
-                            植物名稱 *
-                        </label>
-
-                        <input
-                            type="text"
-                            id="plantName"
-                            required
-                            placeholder="例如：銀鹿"
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="plantUid">
-                            專屬 UID
-                        </label>
-
-                        <input
-                            type="text"
-                            id="plantUid"
-                            readonly
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="plantCategory">
-                            植物分類
-                        </label>
-
-                        <input
-                            type="text"
-                            id="plantCategory"
-                            placeholder="例如：鹿角蕨、香草、蔬菜"
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="plantLocation">
-                            目前場域
-                        </label>
-
-                        <select id="plantLocation">
-
-                            <option value="">
-                                尚未設定
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="plantStatus">
-                            目前狀態
-                        </label>
-
-                        <select id="plantStatus">
-
-                            <option value="alive">
-                                存活中
-                            </option>
-
-                            <option value="dead">
-                                已死亡
-                            </option>
-
-                            <option value="sold">
-                                已出售
-                            </option>
-
-                            <option value="gifted">
-                                已贈送
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="plantPurchaseDate">
-                            購入日期
-                        </label>
-
-                        <input
-                            type="date"
-                            id="plantPurchaseDate"
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="plantCost">
-                            購入成本
-                        </label>
-
-                        <input
-                            type="number"
-                            id="plantCost"
-                            min="0"
-                            step="1"
-                            placeholder="0"
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="plantParent">
-                            母株 / 親本 UID
-                        </label>
-
-                        <input
-                            type="text"
-                            id="plantParent"
-                            placeholder="無則留空"
-                        >
-
-                    </div>
-
-                </div>
-
-
-                <div class="form-group full-width">
-
-                    <label for="plantNotes">
-                        備註
-                    </label>
-
-                    <textarea
-                        id="plantNotes"
-                        rows="4"
-                        placeholder="記錄植物來源、品相或其他資訊..."
-                    ></textarea>
-
-                </div>
-
-
-                <div class="modal-actions">
-
-                    <button
-                        type="button"
-                        class="secondary-button"
-                        data-close-modal="plantModal"
-                    >
-                        取消
-                    </button>
-
-
-                    <button
-                        type="submit"
-                        class="primary-button"
-                    >
-                        💾 儲存植物
-                    </button>
-
-                </div>
-
-            </form>
+          <input
+            id="plantSearch"
+            type="search"
+            placeholder="搜尋植物名稱、UID、分類、親株..."
+          >
 
         </div>
 
-    </div>
+
+        <select
+          id="plantStatusFilter"
+          class="filter-select"
+        >
+          <option value="all">
+            全部狀態
+          </option>
+
+          <option value="alive">
+            存活
+          </option>
+
+          <option value="dead">
+            死亡
+          </option>
+
+          <option value="sold">
+            已出售
+          </option>
+
+          <option value="gifted">
+            已贈送
+          </option>
+
+        </select>
+
+      </div>
 
 
-    <!-- =====================================================
-         新增場域 Modal
-    ====================================================== -->
+      <div
+        id="plantsContainer"
+        class="plants-grid"
+      ></div>
 
-    <div
-        class="modal"
-        id="locationModal"
+    </section>
+
+
+
+    <!-- ===================================================
+         血統親緣
+    ==================================================== -->
+
+    <section
+      id="genealogyPage"
+      class="page"
     >
 
-        <div class="modal-backdrop"></div>
+      <div class="page-header">
+
+        <div>
+          <div class="page-eyebrow">
+            GENEALOGY
+          </div>
+
+          <h2>血統親緣</h2>
+
+          <p>
+            查看分株、父母本與子代之間的繁殖關係。
+          </p>
+        </div>
+
+      </div>
 
 
-        <div
-            class="modal-content"
-            role="dialog"
-            aria-modal="true"
-        >
+      <div
+        id="genealogyContainer"
+      >
 
-            <div class="modal-header">
+        <div class="content-card">
 
-                <div>
+          <div class="empty-state">
 
-                    <p class="modal-eyebrow">
-                        GARDEN LOCATION
-                    </p>
-
-                    <h2>
-                        新增場域
-                    </h2>
-
-                </div>
-
-
-                <button
-                    class="close-button"
-                    data-close-modal="locationModal"
-                    aria-label="關閉"
-                >
-                    ×
-                </button>
-
+            <div class="empty-icon">
+              🌳
             </div>
 
+            <h3>
+              尚未選擇植物
+            </h3>
 
-            <form id="locationForm">
+            <p>
+              請從植物圖鑑選擇一株植物查看親緣關係。
+            </p>
 
+            <button
+              class="btn btn-primary"
+              type="button"
+              data-page="plants"
+            >
+              前往植物圖鑑
+            </button>
 
-                <div class="form-grid">
-
-                    <div class="form-group">
-
-                        <label for="locationName">
-                            場域名稱 *
-                        </label>
-
-                        <input
-                            type="text"
-                            id="locationName"
-                            required
-                            placeholder="例如：露台"
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="locationCity">
-                            縣市
-                        </label>
-
-                        <input
-                            type="text"
-                            id="locationCity"
-                            placeholder="例如：臺中市"
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="locationDistrict">
-                            鄉鎮區
-                        </label>
-
-                        <input
-                            type="text"
-                            id="locationDistrict"
-                            placeholder="例如：西屯區"
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="locationLight">
-                            光照強度
-                        </label>
-
-                        <select id="locationLight">
-
-                            <option value="low">
-                                低
-                            </option>
-
-                            <option value="medium">
-                                中
-                            </option>
-
-                            <option value="high">
-                                高
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="locationVentilation">
-                            通風程度
-                        </label>
-
-                        <select id="locationVentilation">
-
-                            <option value="low">
-                                低
-                            </option>
-
-                            <option value="medium">
-                                中
-                            </option>
-
-                            <option value="high">
-                                高
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="locationRain">
-                            遮雨程度
-                        </label>
-
-                        <select id="locationRain">
-
-                            <option value="low">
-                                低
-                            </option>
-
-                            <option value="medium">
-                                中
-                            </option>
-
-                            <option value="high">
-                                高
-                            </option>
-
-                        </select>
-
-                    </div>
-
-                </div>
-
-
-                <div class="form-group full-width">
-
-                    <label for="locationNotes">
-                        場域備註
-                    </label>
-
-                    <textarea
-                        id="locationNotes"
-                        rows="3"
-                        placeholder="例如：冬季下午日照較弱..."
-                    ></textarea>
-
-                </div>
-
-
-                <div class="modal-actions">
-
-                    <button
-                        type="button"
-                        class="secondary-button"
-                        data-close-modal="locationModal"
-                    >
-                        取消
-                    </button>
-
-
-                    <button
-                        type="submit"
-                        class="primary-button"
-                    >
-                        💾 儲存場域
-                    </button>
-
-                </div>
-
-            </form>
+          </div>
 
         </div>
 
-    </div>
+      </div>
+
+    </section>
 
 
-    <!-- =====================================================
-         Toast
-    ====================================================== -->
 
-    <div
-        class="toast"
-        id="toast"
+    <!-- ===================================================
+         生命履歷
+    ==================================================== -->
+
+    <section
+      id="timelinePage"
+      class="page"
     >
-        <span id="toastMessage"></span>
+
+      <div class="page-header">
+
+        <div>
+          <div class="page-eyebrow">
+            LIFE TIMELINE
+          </div>
+
+          <h2>生命履歷</h2>
+
+          <p>
+            保存植物從建立、繁殖、照護到最終狀態的歷史。
+          </p>
+        </div>
+
+      </div>
+
+
+      <div
+        id="timelineContainer"
+      >
+
+        <div class="content-card">
+
+          <div class="empty-state">
+
+            <div class="empty-icon">
+              📅
+            </div>
+
+            <h3>
+              選擇植物查看生命履歷
+            </h3>
+
+            <p>
+              請至植物圖鑑選擇植物。
+            </p>
+
+            <button
+              class="btn btn-primary"
+              type="button"
+              data-page="plants"
+            >
+              前往植物圖鑑
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         場域管理
+    ==================================================== -->
+
+    <section
+      id="locationsPage"
+      class="page"
+    >
+
+      <div class="page-header">
+
+        <div>
+          <div class="page-eyebrow">
+            GARDEN LOCATIONS
+          </div>
+
+          <h2>場域管理</h2>
+
+          <p>
+            建立陽台、溫室、庭院等植物照護區域。
+          </p>
+        </div>
+
+
+        <button
+          id="addLocationButton"
+          class="btn btn-primary"
+          type="button"
+        >
+          ＋ 新增場域
+        </button>
+
+      </div>
+
+
+      <div
+        id="locationsContainer"
+        class="locations-grid"
+      ></div>
+
+    </section>
+
+
+
+    <!-- ===================================================
+         照片履歷
+    ==================================================== -->
+
+    <section
+      id="galleryPage"
+      class="page"
+    >
+
+      <div class="page-header">
+
+        <div>
+          <div class="page-eyebrow">
+            PHOTO HISTORY
+          </div>
+
+          <h2>照片履歷</h2>
+
+          <p>
+            保存植物生長過程與照護前後的影像紀錄。
+          </p>
+        </div>
+
+      </div>
+
+
+      <div
+        id="galleryContainer"
+        class="content-card"
+      >
+
+        <div class="empty-state">
+
+          <div class="empty-icon">
+            📷
+          </div>
+
+          <h3>
+            照片履歷模組
+          </h3>
+
+          <p>
+            照片上傳、生長時間軸與前後比較將在後續模組加入。
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+
+  <!-- =====================================================
+       植物 Modal
+  ====================================================== -->
+
+  <div
+    id="plantModal"
+    class="modal"
+    hidden
+  >
+
+    <div class="modal-dialog">
+
+      <div class="modal-header">
+
+        <div>
+          <div class="modal-eyebrow">
+            PLANT
+          </div>
+
+          <h2 class="modal-title">
+            新增植物
+          </h2>
+        </div>
+
+
+        <button
+          type="button"
+          class="modal-close"
+          data-close-modal="plantModal"
+          aria-label="關閉"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <form
+        id="plantForm"
+        class="form"
+      >
+
+        <div class="form-grid">
+
+
+          <!-- UID -->
+
+          <div class="form-group">
+
+            <label for="plantUid">
+              植物 UID
+            </label>
+
+            <input
+              id="plantUid"
+              type="text"
+              readonly
+            >
+
+            <small>
+              系統會自動建立唯一 UID。
+            </small>
+
+          </div>
+
+
+          <!-- 名稱 -->
+
+          <div class="form-group">
+
+            <label for="plantName">
+              植物名稱
+              <span class="required">*</span>
+            </label>
+
+            <input
+              id="plantName"
+              type="text"
+              placeholder="例如：鹿角蕨 1 號"
+              required
+            >
+
+          </div>
+
+
+          <!-- 分類 -->
+
+          <div class="form-group">
+
+            <label for="plantCategory">
+              植物分類
+            </label>
+
+            <input
+              id="plantCategory"
+              type="text"
+              placeholder="例如：鹿角蕨、香草、蕨類"
+            >
+
+          </div>
+
+
+          <!-- 場域 -->
+
+          <div class="form-group">
+
+            <label for="plantLocation">
+              所在場域
+            </label>
+
+            <select
+              id="plantLocation"
+            >
+              <option value="">
+                未指定場域
+              </option>
+            </select>
+
+          </div>
+
+
+          <!-- 狀態 -->
+
+          <div class="form-group">
+
+            <label for="plantStatus">
+              植物狀態
+            </label>
+
+            <select
+              id="plantStatus"
+            >
+
+              <option value="alive">
+                存活
+              </option>
+
+              <option value="dead">
+                死亡
+              </option>
+
+              <option value="sold">
+                已出售
+              </option>
+
+              <option value="gifted">
+                已贈送
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <!-- 購入日期 -->
+
+          <div class="form-group">
+
+            <label for="plantPurchaseDate">
+              購入日期
+            </label>
+
+            <input
+              id="plantPurchaseDate"
+              type="date"
+            >
+
+          </div>
+
+
+          <!-- 成本 -->
+
+          <div class="form-group">
+
+            <label for="plantCost">
+              購入成本
+            </label>
+
+            <div class="input-with-prefix">
+
+              <span>$</span>
+
+              <input
+                id="plantCost"
+                type="number"
+                min="0"
+                step="1"
+                placeholder="0"
+              >
+
+            </div>
+
+          </div>
+
+
+          <!-- 親株 -->
+
+          <div class="form-group">
+
+            <label for="plantParent">
+              親株 UID
+            </label>
+
+            <input
+              id="plantParent"
+              type="text"
+              placeholder="例如：PL-001"
+            >
+
+            <small>
+              分株子代可填寫母株 UID。
+            </small>
+
+          </div>
+
+
+          <!-- 備註 -->
+
+          <div class="form-group form-group-full">
+
+            <label for="plantNotes">
+              備註
+            </label>
+
+            <textarea
+              id="plantNotes"
+              rows="4"
+              placeholder="輸入植物相關備註..."
+            ></textarea>
+
+          </div>
+
+        </div>
+
+
+        <div class="modal-footer">
+
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-close-modal="plantModal"
+          >
+            取消
+          </button>
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+          >
+            儲存植物
+          </button>
+
+        </div>
+
+      </form>
+
     </div>
 
+  </div>
 
-    <!-- =====================================================
-         JavaScript
-    ====================================================== -->
 
-    <script type="module" src="js/app.js"></script>
+
+  <!-- =====================================================
+       場域 Modal
+  ====================================================== -->
+
+  <div
+    id="locationModal"
+    class="modal"
+    hidden
+  >
+
+    <div class="modal-dialog">
+
+      <div class="modal-header">
+
+        <div>
+          <div class="modal-eyebrow">
+            LOCATION
+          </div>
+
+          <h2 class="modal-title">
+            新增場域
+          </h2>
+        </div>
+
+
+        <button
+          type="button"
+          class="modal-close"
+          data-close-modal="locationModal"
+          aria-label="關閉"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <form
+        id="locationForm"
+        class="form"
+      >
+
+        <div class="form-grid">
+
+
+          <!-- 場域名稱 -->
+
+          <div class="form-group form-group-full">
+
+            <label for="locationName">
+              場域名稱
+              <span class="required">*</span>
+            </label>
+
+            <input
+              id="locationName"
+              type="text"
+              placeholder="例如：陽台、溫室、庭院"
+              required
+            >
+
+          </div>
+
+
+          <!-- 城市 -->
+
+          <div class="form-group">
+
+            <label for="locationCity">
+              縣市
+            </label>
+
+            <input
+              id="locationCity"
+              type="text"
+              placeholder="例如：台中市"
+            >
+
+          </div>
+
+
+          <!-- 行政區 -->
+
+          <div class="form-group">
+
+            <label for="locationDistrict">
+              行政區
+            </label>
+
+            <input
+              id="locationDistrict"
+              type="text"
+              placeholder="例如：西屯區"
+            >
+
+          </div>
+
+
+          <!-- 光照 -->
+
+          <div class="form-group">
+
+            <label for="locationLight">
+              光照
+            </label>
+
+            <select
+              id="locationLight"
+            >
+
+              <option value="">
+                未設定
+              </option>
+
+              <option value="低光">
+                低光
+              </option>
+
+              <option value="散射光">
+                散射光
+              </option>
+
+              <option value="明亮散射光">
+                明亮散射光
+              </option>
+
+              <option value="半日照">
+                半日照
+              </option>
+
+              <option value="全日照">
+                全日照
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <!-- 通風 -->
+
+          <div class="form-group">
+
+            <label for="locationVentilation">
+              通風
+            </label>
+
+            <select
+              id="locationVentilation"
+            >
+
+              <option value="">
+                未設定
+              </option>
+
+              <option value="弱">
+                弱
+              </option>
+
+              <option value="中">
+                中
+              </option>
+
+              <option value="強">
+                強
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <!-- 遮雨 -->
+
+          <div class="form-group">
+
+            <label for="locationRain">
+              遮雨
+            </label>
+
+            <select
+              id="locationRain"
+            >
+
+              <option value="">
+                未設定
+              </option>
+
+              <option value="完全遮雨">
+                完全遮雨
+              </option>
+
+              <option value="部分遮雨">
+                部分遮雨
+              </option>
+
+              <option value="無遮雨">
+                無遮雨
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <!-- 備註 -->
+
+          <div class="form-group form-group-full">
+
+            <label for="locationNotes">
+              備註
+            </label>
+
+            <textarea
+              id="locationNotes"
+              rows="4"
+              placeholder="輸入場域相關資訊..."
+            ></textarea>
+
+          </div>
+
+        </div>
+
+
+        <div class="modal-footer">
+
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-close-modal="locationModal"
+          >
+            取消
+          </button>
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+          >
+            儲存場域
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =====================================================
+       Toast
+  ====================================================== -->
+
+  <div
+    id="toast"
+    class="toast"
+    role="status"
+    aria-live="polite"
+  >
+
+    <span class="toast-icon">
+      ✓
+    </span>
+
+    <span id="toastMessage">
+      操作完成
+    </span>
+
+  </div>
+
+
+  <!-- =====================================================
+       JavaScript
+  ====================================================== -->
+
+  <script
+    type="module"
+    src="js/app.js"
+  ></script>
 
 </body>
 </html>
-```
