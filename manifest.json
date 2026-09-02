@@ -1,0 +1,12 @@
+{
+  "name": "智慧園藝管理",
+  "short_name": "智慧園藝",
+  "description": "個人化植物個體、血統、照護與園藝資源管理系統",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f5f7f5",
+  "theme_color": "#2f6b4f",
+  "orientation": "portrait-primary",
+  "lang": "zh-TW",
+  "icons": []
+}
