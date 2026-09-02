@@ -164,6 +164,12 @@ function setupButtons() {
     addPlantButton.addEventListener("click", () => {
       openPlantModal();
     });
+
+    /*
+     * 如果 HTML 沒有獨立的雜交按鈕，
+     * 自動建立一個，避免需要手動修改 index.html。
+     */
+    createHybridButton(addPlantButton);
   }
 
   const addLocationButton =
@@ -192,6 +198,40 @@ function setupButtons() {
       openLocationModal();
     });
   }
+}
+
+
+/* =========================================================
+   自動建立雜交按鈕
+========================================================= */
+
+function createHybridButton(referenceButton) {
+  if (document.getElementById("createHybridButton")) {
+    return;
+  }
+
+  const parent =
+    referenceButton.parentElement;
+
+  if (!parent) {
+    return;
+  }
+
+  const button =
+    document.createElement("button");
+
+  button.type = "button";
+  button.id = "createHybridButton";
+  button.className = "btn btn-secondary";
+
+  button.innerHTML =
+    "🧬 建立雜交子代";
+
+  button.addEventListener("click", async () => {
+    await createHybridChild();
+  });
+
+  parent.appendChild(button);
 }
 
 
@@ -270,7 +310,8 @@ function openPlantModal(plant = null) {
     return;
   }
 
-  state.editingPlantId = plant?.id || null;
+  state.editingPlantId =
+    plant?.id || null;
 
   form.reset();
 
@@ -304,17 +345,30 @@ function openPlantModal(plant = null) {
   updateLocationOptions();
 
   if (plant) {
-    uidInput.value = plant.uid || "";
-    nameInput.value = plant.name || "";
-    categoryInput.value = plant.category || "";
-    locationInput.value = plant.locationId || "";
-    statusInput.value = plant.status || "alive";
+    uidInput.value =
+      plant.uid || "";
+
+    nameInput.value =
+      plant.name || "";
+
+    categoryInput.value =
+      plant.category || "";
+
+    locationInput.value =
+      plant.locationId || "";
+
+    statusInput.value =
+      plant.status || "alive";
+
     purchaseDateInput.value =
       plant.purchaseDate || "";
+
     costInput.value =
       plant.cost ?? "";
+
     parentInput.value =
       plant.parentUid || "";
+
     notesInput.value =
       plant.notes || "";
 
@@ -322,18 +376,22 @@ function openPlantModal(plant = null) {
       modal.querySelector(".modal-title");
 
     if (title) {
-      title.textContent = "編輯植物";
+      title.textContent =
+        "編輯植物";
     }
   } else {
-    uidInput.value = generatePlantUID();
+    uidInput.value =
+      generatePlantUID();
 
-    statusInput.value = "alive";
+    statusInput.value =
+      "alive";
 
     const title =
       modal.querySelector(".modal-title");
 
     if (title) {
-      title.textContent = "新增植物";
+      title.textContent =
+        "新增植物";
     }
   }
 
@@ -353,10 +411,12 @@ function updateLocationOptions() {
     return;
   }
 
-  const currentValue = select.value;
+  const currentValue =
+    select.value;
 
   select.innerHTML = `
     <option value="">未指定場域</option>
+
     ${state.locations
       .map(location => `
         <option value="${escapeHtml(location.id)}">
@@ -366,7 +426,8 @@ function updateLocationOptions() {
       .join("")}
   `;
 
-  select.value = currentValue;
+  select.value =
+    currentValue;
 }
 
 
@@ -379,22 +440,28 @@ function setupForms() {
     document.getElementById("plantForm");
 
   if (plantForm) {
-    plantForm.addEventListener("submit", async event => {
-      event.preventDefault();
+    plantForm.addEventListener(
+      "submit",
+      async event => {
+        event.preventDefault();
 
-      await savePlant();
-    });
+        await savePlant();
+      }
+    );
   }
 
   const locationForm =
     document.getElementById("locationForm");
 
   if (locationForm) {
-    locationForm.addEventListener("submit", async event => {
-      event.preventDefault();
+    locationForm.addEventListener(
+      "submit",
+      async event => {
+        event.preventDefault();
 
-      await saveLocation();
-    });
+        await saveLocation();
+      }
+    );
   }
 }
 
@@ -405,31 +472,40 @@ function setupForms() {
 
 async function savePlant() {
   const name =
-    document.getElementById("plantName")?.value.trim();
+    document.getElementById("plantName")
+      ?.value.trim();
 
   const uid =
-    document.getElementById("plantUid")?.value.trim();
+    document.getElementById("plantUid")
+      ?.value.trim();
 
   const category =
-    document.getElementById("plantCategory")?.value.trim();
+    document.getElementById("plantCategory")
+      ?.value.trim();
 
   const locationId =
-    document.getElementById("plantLocation")?.value || "";
+    document.getElementById("plantLocation")
+      ?.value || "";
 
   const status =
-    document.getElementById("plantStatus")?.value || "alive";
+    document.getElementById("plantStatus")
+      ?.value || "alive";
 
   const purchaseDate =
-    document.getElementById("plantPurchaseDate")?.value || "";
+    document.getElementById("plantPurchaseDate")
+      ?.value || "";
 
   const costRaw =
-    document.getElementById("plantCost")?.value;
+    document.getElementById("plantCost")
+      ?.value;
 
   const parentUid =
-    document.getElementById("plantParent")?.value.trim() || "";
+    document.getElementById("plantParent")
+      ?.value.trim() || "";
 
   const notes =
-    document.getElementById("plantNotes")?.value.trim() || "";
+    document.getElementById("plantNotes")
+      ?.value.trim() || "";
 
   if (!name) {
     showToast("植物名稱不可為空白");
@@ -441,7 +517,10 @@ async function savePlant() {
       ? 0
       : Number(costRaw);
 
-  if (Number.isNaN(cost) || cost < 0) {
+  if (
+    Number.isNaN(cost) ||
+    cost < 0
+  ) {
     showToast("成本不得小於 0");
     return;
   }
@@ -451,11 +530,12 @@ async function savePlant() {
     return;
   }
 
-  const duplicateUid = state.plants.find(
-    plant =>
-      plant.uid === uid &&
-      plant.id !== state.editingPlantId
-  );
+  const duplicateUid =
+    state.plants.find(
+      plant =>
+        plant.uid === uid &&
+        plant.id !== state.editingPlantId
+    );
 
   if (duplicateUid) {
     showToast("植物 UID 已存在");
@@ -464,8 +544,43 @@ async function savePlant() {
 
   const existingPlant =
     state.plants.find(
-      plant => plant.id === state.editingPlantId
+      plant =>
+        plant.id === state.editingPlantId
     );
+
+  /*
+   * 不允許自己當自己的親株。
+   */
+  if (
+    parentUid &&
+    parentUid === uid
+  ) {
+    showToast(
+      "植物不能設定自己為自己的親株"
+    );
+
+    return;
+  }
+
+  /*
+   * 如果有填親株 UID，
+   * 必須確定該植物真的存在。
+   */
+  if (parentUid) {
+    const parent =
+      state.plants.find(
+        plant =>
+          plant.uid === parentUid
+      );
+
+    if (!parent) {
+      showToast(
+        `找不到親株 UID：${parentUid}`
+      );
+
+      return;
+    }
+  }
 
   const now =
     new Date().toISOString();
@@ -491,29 +606,55 @@ async function savePlant() {
 
     parentUid,
 
+    /*
+     * 保留雜交資料。
+     */
+    fatherUid:
+      existingPlant?.fatherUid || "",
+
+    motherUid:
+      existingPlant?.motherUid || "",
+
     notes,
 
     createdAt:
-      existingPlant?.createdAt || now,
+      existingPlant?.createdAt ||
+      now,
 
-    updatedAt: now
+    updatedAt:
+      now
   };
 
-  await putData("plants", plant);
+  await putData(
+    "plants",
+    plant
+  );
 
+  /*
+   * 新植物建立 Timeline。
+   */
   if (!existingPlant) {
     await addTimelineEvent({
       plantUid: plant.uid,
+
       type: "purchase",
+
       date:
         purchaseDate ||
-        new Date().toISOString().slice(0, 10),
+        new Date()
+          .toISOString()
+          .slice(0, 10),
+
       title: "植物建立",
+
       description:
         `建立植物 ${plant.name}（${plant.uid}）`
     });
   }
 
+  /*
+   * 狀態發生變化。
+   */
   if (
     existingPlant &&
     existingPlant.status !== plant.status
@@ -530,7 +671,8 @@ async function savePlant() {
     document.getElementById("plantModal")
   );
 
-  state.editingPlantId = null;
+  state.editingPlantId =
+    null;
 
   showToast(
     existingPlant
@@ -559,22 +701,37 @@ async function handleStatusChange(
     statusText[newPlant.status] ||
     newPlant.status;
 
-  let type = "note";
+  let type =
+    "note";
 
-  if (newPlant.status === "dead") {
+  if (
+    newPlant.status === "dead"
+  ) {
     type = "death";
-  } else if (newPlant.status === "sold") {
+  } else if (
+    newPlant.status === "sold"
+  ) {
     type = "sold";
-  } else if (newPlant.status === "gifted") {
+  } else if (
+    newPlant.status === "gifted"
+  ) {
     type = "gifted";
   }
 
   await addTimelineEvent({
-    plantUid: newPlant.uid,
+    plantUid:
+      newPlant.uid,
+
     type,
+
     date:
-      new Date().toISOString().slice(0, 10),
-    title: `狀態變更：${currentStatus}`,
+      new Date()
+        .toISOString()
+        .slice(0, 10),
+
+    title:
+      `狀態變更：${currentStatus}`,
+
     description:
       `${statusText[oldPlant.status] || oldPlant.status} → ${currentStatus}`
   });
@@ -615,7 +772,10 @@ async function saveLocation() {
       ?.value.trim() || "";
 
   if (!name) {
-    showToast("場域名稱不可為空白");
+    showToast(
+      "場域名稱不可為空白"
+    );
+
     return;
   }
 
@@ -625,7 +785,8 @@ async function saveLocation() {
 
   const existing =
     state.locations.find(
-      location => location.id === existingId
+      location =>
+        location.id === existingId
     );
 
   const location = {
@@ -661,7 +822,9 @@ async function saveLocation() {
   );
 
   const form =
-    document.getElementById("locationForm");
+    document.getElementById(
+      "locationForm"
+    );
 
   if (form) {
     form.dataset.editingId = "";
@@ -671,7 +834,9 @@ async function saveLocation() {
   await reloadAndRender();
 
   closeModal(
-    document.getElementById("locationModal")
+    document.getElementById(
+      "locationModal"
+    )
   );
 
   showToast(
@@ -692,16 +857,24 @@ function renderDashboard() {
 
   const alivePlants =
     state.plants.filter(
-      plant => plant.status === "alive"
+      plant =>
+        plant.status === "alive"
     ).length;
 
   const totalLocations =
     state.locations.length;
 
+  /*
+   * 不再直接計算 timeline 裡的 division 數量，
+   * 因為一次分株會產生多筆關係資料。
+   *
+   * 改成計算「分株批次」。
+   */
+  const divisionBatches =
+    getDivisionBatches();
+
   const totalSplits =
-    state.timeline.filter(
-      event => event.type === "division"
-    ).length;
+    divisionBatches.length;
 
   setText(
     "totalPlants",
@@ -727,9 +900,33 @@ function renderDashboard() {
 }
 
 
+/* =========================================================
+   分株批次統計
+========================================================= */
+
+function getDivisionBatches() {
+  const parentEvents =
+    state.timeline.filter(
+      event =>
+        event.type === "division" &&
+        Array.isArray(
+          event.data?.childUids
+        )
+    );
+
+  return parentEvents;
+}
+
+
+/* =========================================================
+   最近植物
+========================================================= */
+
 function renderRecentPlants() {
   const container =
-    document.getElementById("recentPlants");
+    document.getElementById(
+      "recentPlants"
+    );
 
   if (!container) {
     return;
@@ -769,7 +966,9 @@ function renderRecentPlants() {
 
 function renderPlants() {
   const container =
-    document.getElementById("plantsContainer");
+    document.getElementById(
+      "plantsContainer"
+    );
 
   if (!container) {
     return;
@@ -784,32 +983,38 @@ function renderPlants() {
 
   const status =
     document
-      .getElementById("plantStatusFilter")
+      .getElementById(
+        "plantStatusFilter"
+      )
       ?.value || "all";
 
   let plants =
     [...state.plants];
 
   if (search) {
-    plants = plants.filter(plant => {
-      const text = [
-        plant.uid,
-        plant.name,
-        plant.category,
-        plant.parentUid
-      ]
-        .filter(Boolean)
-        .join(" ")
-        .toLowerCase();
+    plants =
+      plants.filter(plant => {
+        const text = [
+          plant.uid,
+          plant.name,
+          plant.category,
+          plant.parentUid,
+          plant.fatherUid,
+          plant.motherUid
+        ]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase();
 
-      return text.includes(search);
-    });
+        return text.includes(search);
+      });
   }
 
   if (status !== "all") {
     plants =
       plants.filter(
-        plant => plant.status === status
+        plant =>
+          plant.status === status
       );
   }
 
@@ -855,12 +1060,24 @@ function createPlantCard(plant) {
         location.id === plant.locationId
     );
 
-  const splitCount =
+  /*
+   * 只計算真正的子代關係，
+   * 不把父株自己的分株紀錄算進去。
+   */
+  const childRelations =
     state.timeline.filter(
       event =>
         event.type === "division" &&
-        event.parentUid === plant.uid
-    ).length;
+        event.parentUid === plant.uid &&
+        event.childUid
+    );
+
+  const splitCount =
+    new Set(
+      childRelations.map(
+        event => event.childUid
+      )
+    ).size;
 
   return `
     <article class="plant-card">
@@ -874,15 +1091,19 @@ function createPlantCard(plant) {
         <div class="plant-main">
 
           <div class="plant-title-row">
+
             <h3>
               ${escapeHtml(plant.name)}
             </h3>
 
-            <span class="status-badge status-${escapeHtml(
-              plant.status || "alive"
-            )}">
+            <span
+              class="status-badge status-${escapeHtml(
+                plant.status || "alive"
+              )}"
+            >
               ${escapeHtml(status)}
             </span>
+
           </div>
 
           <div class="plant-uid">
@@ -893,7 +1114,9 @@ function createPlantCard(plant) {
             plant.category
               ? `
                 <div class="plant-category">
-                  ${escapeHtml(plant.category)}
+                  ${escapeHtml(
+                    plant.category
+                  )}
                 </div>
               `
               : ""
@@ -910,7 +1133,9 @@ function createPlantCard(plant) {
             ? `
               <div>
                 <span>📍</span>
-                ${escapeHtml(location.name)}
+                ${escapeHtml(
+                  location.name
+                )}
               </div>
             `
             : `
@@ -926,7 +1151,9 @@ function createPlantCard(plant) {
             ? `
               <div>
                 <span>📅</span>
-                ${escapeHtml(plant.purchaseDate)}
+                ${escapeHtml(
+                  plant.purchaseDate
+                )}
               </div>
             `
             : ""
@@ -938,7 +1165,9 @@ function createPlantCard(plant) {
             ? `
               <div>
                 <span>💰</span>
-                $${Number(plant.cost).toLocaleString()}
+                $${Number(
+                  plant.cost
+                ).toLocaleString()}
               </div>
             `
             : ""
@@ -949,7 +1178,7 @@ function createPlantCard(plant) {
             ? `
               <div>
                 <span>✂️</span>
-                已分株 ${splitCount} 次
+                已產生 ${splitCount} 株子代
               </div>
             `
             : ""
@@ -961,9 +1190,51 @@ function createPlantCard(plant) {
         plant.parentUid
           ? `
             <div class="plant-tags">
+
               <span class="tag">
-                親株：${escapeHtml(plant.parentUid)}
+                親株：
+                ${escapeHtml(
+                  plant.parentUid
+                )}
               </span>
+
+            </div>
+          `
+          : ""
+      }
+
+      ${
+        plant.fatherUid ||
+        plant.motherUid
+          ? `
+            <div class="plant-tags">
+
+              ${
+                plant.fatherUid
+                  ? `
+                    <span class="tag">
+                      父本：
+                      ${escapeHtml(
+                        plant.fatherUid
+                      )}
+                    </span>
+                  `
+                  : ""
+              }
+
+              ${
+                plant.motherUid
+                  ? `
+                    <span class="tag">
+                      母本：
+                      ${escapeHtml(
+                        plant.motherUid
+                      )}
+                    </span>
+                  `
+                  : ""
+              }
+
             </div>
           `
           : ""
@@ -974,7 +1245,9 @@ function createPlantCard(plant) {
         <button
           class="btn btn-secondary btn-small"
           data-action="timeline"
-          data-id="${escapeHtml(plant.id)}"
+          data-id="${escapeHtml(
+            plant.id
+          )}"
         >
           📅 履歷
         </button>
@@ -982,7 +1255,9 @@ function createPlantCard(plant) {
         <button
           class="btn btn-secondary btn-small"
           data-action="genealogy"
-          data-uid="${escapeHtml(plant.uid)}"
+          data-uid="${escapeHtml(
+            plant.uid
+          )}"
         >
           🌳 親緣
         </button>
@@ -990,7 +1265,9 @@ function createPlantCard(plant) {
         <button
           class="btn btn-secondary btn-small"
           data-action="division"
-          data-id="${escapeHtml(plant.id)}"
+          data-id="${escapeHtml(
+            plant.id
+          )}"
         >
           ✂️ 分株
         </button>
@@ -998,7 +1275,9 @@ function createPlantCard(plant) {
         <button
           class="btn btn-secondary btn-small"
           data-action="edit"
-          data-id="${escapeHtml(plant.id)}"
+          data-id="${escapeHtml(
+            plant.id
+          )}"
         >
           編輯
         </button>
@@ -1006,7 +1285,9 @@ function createPlantCard(plant) {
         <button
           class="btn btn-danger btn-small"
           data-action="delete"
-          data-id="${escapeHtml(plant.id)}"
+          data-id="${escapeHtml(
+            plant.id
+          )}"
         >
           刪除
         </button>
@@ -1022,50 +1303,54 @@ function createPlantCard(plant) {
    植物卡片操作
 ========================================================= */
 
-document.addEventListener("click", async event => {
-  const button =
-    event.target.closest(
-      "[data-action]"
-    );
+document.addEventListener(
+  "click",
+  async event => {
+    const button =
+      event.target.closest(
+        "[data-action]"
+      );
 
-  if (!button) {
-    return;
+    if (!button) {
+      return;
+    }
+
+    const action =
+      button.dataset.action;
+
+    const id =
+      button.dataset.id;
+
+    const uid =
+      button.dataset.uid;
+
+    switch (action) {
+
+      case "edit":
+        editPlant(id);
+        break;
+
+      case "delete":
+        await deletePlant(id);
+        break;
+
+      case "timeline":
+        await showPlantTimelineById(id);
+        break;
+
+      case "genealogy":
+        await showGenealogy(uid);
+        break;
+
+      case "division":
+        await dividePlant(id);
+        break;
+
+      default:
+        break;
+    }
   }
-
-  const action =
-    button.dataset.action;
-
-  const id =
-    button.dataset.id;
-
-  const uid =
-    button.dataset.uid;
-
-  switch (action) {
-    case "edit":
-      editPlant(id);
-      break;
-
-    case "delete":
-      await deletePlant(id);
-      break;
-
-    case "timeline":
-      await showPlantTimelineById(id);
-      break;
-
-    case "genealogy":
-      await showGenealogy(uid);
-      break;
-
-    case "division":
-      await dividePlant(id);
-      break;
-
-    default:
-      break;
-  }
-});
+);
 
 
 /* =========================================================
@@ -1102,32 +1387,148 @@ async function deletePlant(id) {
 
   const confirmed =
     window.confirm(
-      `確定要刪除「${plant.name}」嗎？\n\n此操作會刪除植物資料。`
+      `確定要刪除「${plant.name}」嗎？\n\n此操作會刪除植物資料以及與此植物直接相關的履歷與血統關係。`
     );
 
   if (!confirmed) {
     return;
   }
 
+  /*
+   * 1. 刪除植物本身
+   */
   await deleteData(
     "plants",
     id
   );
 
+  /*
+   * 2. 刪除該植物自己的 Timeline
+   */
   const events =
     await getAllData("timeline");
 
   for (const event of events) {
-    if (event.plantUid === plant.uid) {
+    if (
+      event.plantUid === plant.uid
+    ) {
       await deleteTimelineEvent(
         event.id
       );
     }
   }
 
+  /*
+   * 3. 清理其他植物指向這株植物的血統關係。
+   *
+   * 注意：
+   * genealogy.js 使用 timeline 作為關係資料，
+   * 因此這裡只刪除「直接相關」的關係事件。
+   */
+  const remainingEvents =
+    await getAllData("timeline");
+
+  for (const event of remainingEvents) {
+
+    const isDivisionRelation =
+      event.type === "division" &&
+      (
+        event.parentUid === plant.uid ||
+        event.childUid === plant.uid ||
+        event.data?.parentUid === plant.uid ||
+        event.data?.childUids?.includes(
+          plant.uid
+        )
+      );
+
+    const isHybridRelation =
+      event.type === "hybridization" &&
+      (
+        event.fatherUid === plant.uid ||
+        event.motherUid === plant.uid ||
+        event.childUid === plant.uid ||
+        event.data?.fatherUid === plant.uid ||
+        event.data?.motherUid === plant.uid
+      );
+
+    if (
+      isDivisionRelation ||
+      isHybridRelation
+    ) {
+      await deleteTimelineEvent(
+        event.id
+      );
+    }
+  }
+
+  /*
+   * 4. 如果其他植物把這株當 parentUid，
+   * 不直接刪除子代，而是解除親株欄位。
+   */
+  const childPlants =
+    state.plants.filter(
+      child =>
+        child.parentUid === plant.uid
+    );
+
+  for (const child of childPlants) {
+    child.parentUid = "";
+    child.updatedAt =
+      new Date().toISOString();
+
+    await putData(
+      "plants",
+      child
+    );
+  }
+
+  /*
+   * 5. 如果其他植物把這株當父本／母本，
+   * 清除對應欄位。
+   */
+  const hybridChildren =
+    state.plants.filter(
+      child =>
+        child.fatherUid === plant.uid ||
+        child.motherUid === plant.uid
+    );
+
+  for (const child of hybridChildren) {
+
+    if (
+      child.fatherUid === plant.uid
+    ) {
+      child.fatherUid = "";
+    }
+
+    if (
+      child.motherUid === plant.uid
+    ) {
+      child.motherUid = "";
+    }
+
+    child.updatedAt =
+      new Date().toISOString();
+
+    await putData(
+      "plants",
+      child
+    );
+  }
+
+  if (
+    state.selectedPlantUid ===
+    plant.uid
+  ) {
+    state.selectedPlantUid =
+      null;
+  }
+
   await reloadAndRender();
 
-  showToast("植物已刪除");
+  showToast(
+    "植物及相關血統資料已刪除"
+  );
 }
 
 
@@ -1142,6 +1543,14 @@ async function dividePlant(id) {
     );
 
   if (!parent) {
+    return;
+  }
+
+  if (parent.status !== "alive") {
+    showToast(
+      "只有存活植物可以進行分株"
+    );
+
     return;
   }
 
@@ -1174,34 +1583,50 @@ async function dividePlant(id) {
 
   const children = [];
 
-  for (let i = 1; i <= count; i++) {
-    const uid =
+  /*
+   * 先建立所有子株。
+   */
+  for (
+    let i = 1;
+    i <= count;
+    i++
+  ) {
+    const baseUid =
       `${parent.uid}-${String(i).padStart(2, "0")}`;
 
-    let childUid = uid;
+    let childUid =
+      baseUid;
 
     let suffix = 2;
 
     while (
       state.plants.some(
-        plant => plant.uid === childUid
+        plant =>
+          plant.uid === childUid
+      ) ||
+      children.some(
+        child =>
+          child.uid === childUid
       )
     ) {
       childUid =
-        `${parent.uid}-${String(i).padStart(2, "0")}-${suffix}`;
+        `${baseUid}-${suffix}`;
 
       suffix++;
     }
 
-    const childName =
-      `${parent.name} 分株 ${i}`;
+    const now =
+      new Date().toISOString();
 
     const child = {
-      id: generateId("PLANT"),
+      id:
+        generateId("PLANT"),
 
-      uid: childUid,
+      uid:
+        childUid,
 
-      name: childName,
+      name:
+        `${parent.name} 分株 ${i}`,
 
       category:
         parent.category || "",
@@ -1209,7 +1634,8 @@ async function dividePlant(id) {
       locationId:
         parent.locationId || "",
 
-      status: "alive",
+      status:
+        "alive",
 
       purchaseDate:
         new Date()
@@ -1217,23 +1643,29 @@ async function dividePlant(id) {
           .slice(0, 10),
 
       /*
-       * 無性繁殖：
-       * 子株繼承母株植物資訊，
-       * 但成本可以獨立管理。
+       * 無性繁殖子株：
+       * 預設成本 0，可之後獨立修改。
        */
-      cost: 0,
+      cost:
+        0,
 
       parentUid:
         parent.uid,
+
+      fatherUid:
+        "",
+
+      motherUid:
+        "",
 
       notes:
         `由 ${parent.uid} 分株產生`,
 
       createdAt:
-        new Date().toISOString(),
+        now,
 
       updatedAt:
-        new Date().toISOString()
+        now
     };
 
     await putData(
@@ -1242,45 +1674,95 @@ async function dividePlant(id) {
     );
 
     children.push(child);
-
-    await addTimelineEvent({
-      plantUid: child.uid,
-      type: "division",
-      date:
-        new Date()
-          .toISOString()
-          .slice(0, 10),
-      title: "分株產生",
-      description:
-        `由 ${parent.uid}「${parent.name}」分株產生`,
-      data: {
-        parentUid: parent.uid,
-        inheritanceType: "asexual"
-      }
-    });
   }
 
+  /*
+   * =======================================================
+   * 重要修正：
+   *
+   * createDivision() 本身就會建立：
+   *
+   * parentUid
+   * childUid
+   * inheritanceType
+   *
+   * 因此這裡不再另外建立一組重複的 division relation。
+   * =======================================================
+   */
   await createDivision(
     parent,
     children
   );
 
+  /*
+   * 父株只保留一筆「本次分株」履歷，
+   * 用 childUids 記錄這一批產生哪些子株。
+   */
   await addTimelineEvent({
-    plantUid: parent.uid,
-    type: "division",
+    plantUid:
+      parent.uid,
+
+    type:
+      "division",
+
     date:
       new Date()
         .toISOString()
         .slice(0, 10),
-    title: "進行分株",
+
+    title:
+      "進行分株",
+
     description:
       `本次分株產生 ${count} 株子株`,
+
     data: {
       childUids:
-        children.map(child => child.uid),
-      inheritanceType: "asexual"
+        children.map(
+          child =>
+            child.uid
+        ),
+
+      inheritanceType:
+        "asexual"
     }
   });
+
+  /*
+   * 子株另外建立一般生命履歷。
+   *
+   * 注意：
+   * 這裡使用 type = "note"，
+   * 避免與 genealogy.js 的 division relation 重複。
+   */
+  for (const child of children) {
+    await addTimelineEvent({
+      plantUid:
+        child.uid,
+
+      type:
+        "note",
+
+      date:
+        new Date()
+          .toISOString()
+          .slice(0, 10),
+
+      title:
+        "分株產生",
+
+      description:
+        `由 ${parent.uid}「${parent.name}」分株產生`,
+
+      data: {
+        parentUid:
+          parent.uid,
+
+        inheritanceType:
+          "asexual"
+      }
+    });
+  }
 
   await reloadAndRender();
 
@@ -1295,7 +1777,9 @@ async function dividePlant(id) {
 ========================================================= */
 
 async function createHybridChild() {
-  if (state.plants.length < 2) {
+  if (
+    state.plants.length < 2
+  ) {
     showToast(
       "至少需要兩株植物才能建立雜交關係"
     );
@@ -1303,25 +1787,61 @@ async function createHybridChild() {
     return;
   }
 
-  const fatherUid =
+  const fatherUidInput =
     window.prompt(
       "請輸入父株 UID：\n\n例如 PL-001"
     );
 
-  if (!fatherUid) {
+  if (!fatherUidInput) {
     return;
   }
 
-  const motherUid =
+  const fatherUid =
+    fatherUidInput.trim();
+
+  const father =
+    state.plants.find(
+      plant =>
+        plant.uid === fatherUid
+    );
+
+  if (!father) {
+    showToast(
+      `找不到父株 UID：${fatherUid}`
+    );
+
+    return;
+  }
+
+  const motherUidInput =
     window.prompt(
       "請輸入母株 UID：\n\n例如 PL-002"
     );
 
-  if (!motherUid) {
+  if (!motherUidInput) {
     return;
   }
 
-  if (fatherUid === motherUid) {
+  const motherUid =
+    motherUidInput.trim();
+
+  const mother =
+    state.plants.find(
+      plant =>
+        plant.uid === motherUid
+    );
+
+  if (!mother) {
+    showToast(
+      `找不到母株 UID：${motherUid}`
+    );
+
+    return;
+  }
+
+  if (
+    father.uid === mother.uid
+  ) {
     showToast(
       "父株與母株不能是同一株"
     );
@@ -1329,42 +1849,60 @@ async function createHybridChild() {
     return;
   }
 
-  const father =
-    state.plants.find(
-      plant => plant.uid === fatherUid.trim()
-    );
-
-  const mother =
-    state.plants.find(
-      plant => plant.uid === motherUid.trim()
-    );
-
-  if (!father || !mother) {
+  if (
+    father.status !== "alive" ||
+    mother.status !== "alive"
+  ) {
     showToast(
-      "找不到父株或母株 UID"
+      "父株與母株都必須是存活狀態"
     );
 
     return;
   }
 
-  const childName =
+  const childNameInput =
     window.prompt(
       "請輸入子代植物名稱："
     );
 
-  if (!childName?.trim()) {
+  if (
+    !childNameInput ||
+    !childNameInput.trim()
+  ) {
     return;
   }
 
-  const childUid =
+  const childName =
+    childNameInput.trim();
+
+  /*
+   * UID 由系統自動產生。
+   */
+  let childUid =
     generatePlantUID();
 
+  while (
+    state.plants.some(
+      plant =>
+        plant.uid === childUid
+    )
+  ) {
+    childUid =
+      generatePlantUID();
+  }
+
+  const now =
+    new Date().toISOString();
+
   const child = {
-    id: generateId("PLANT"),
+    id:
+      generateId("PLANT"),
 
-    uid: childUid,
+    uid:
+      childUid,
 
-    name: childName.trim(),
+    name:
+      childName,
 
     category:
       father.category ||
@@ -1376,29 +1914,40 @@ async function createHybridChild() {
       mother.locationId ||
       "",
 
-    status: "alive",
+    status:
+      "alive",
 
     purchaseDate:
       new Date()
         .toISOString()
         .slice(0, 10),
 
-    cost: 0,
+    /*
+     * 雜交子代初始成本預設 0。
+     */
+    cost:
+      0,
 
+    /*
+     * 雙親血統。
+     */
     fatherUid:
       father.uid,
 
     motherUid:
       mother.uid,
 
+    parentUid:
+      "",
+
     notes:
       `由 ${father.uid} × ${mother.uid} 雜交產生`,
 
     createdAt:
-      new Date().toISOString(),
+      now,
 
     updatedAt:
-      new Date().toISOString()
+      now
   };
 
   await putData(
@@ -1406,26 +1955,45 @@ async function createHybridChild() {
     child
   );
 
+  /*
+   * genealogy.js 建立真正的血統關係。
+   */
   await createHybridization({
     father,
     mother,
     child
   });
 
+  /*
+   * 子代自己的生命履歷。
+   */
   await addTimelineEvent({
-    plantUid: child.uid,
-    type: "hybridization",
+    plantUid:
+      child.uid,
+
+    type:
+      "note",
+
     date:
       new Date()
         .toISOString()
         .slice(0, 10),
-    title: "雜交產生",
+
+    title:
+      "雜交子代建立",
+
     description:
       `${father.uid} × ${mother.uid} → ${child.uid}`,
+
     data: {
-      fatherUid: father.uid,
-      motherUid: mother.uid,
-      inheritanceType: "sexual"
+      fatherUid:
+        father.uid,
+
+      motherUid:
+        mother.uid,
+
+      inheritanceType:
+        "sexual"
     }
   });
 
@@ -1474,7 +2042,8 @@ async function renderPlantTimeline(uid) {
 
   const plant =
     state.plants.find(
-      item => item.uid === uid
+      item =>
+        item.uid === uid
     );
 
   if (!plant) {
@@ -1496,13 +2065,19 @@ async function renderPlantTimeline(uid) {
       <div class="section-header">
 
         <div>
+
           <h2>
-            ${escapeHtml(plant.name)}
+            ${escapeHtml(
+              plant.name
+            )}
           </h2>
 
           <p>
-            ${escapeHtml(plant.uid)}
+            ${escapeHtml(
+              plant.uid
+            )}
           </p>
+
         </div>
 
         <button
@@ -1527,7 +2102,8 @@ async function renderPlantTimeline(uid) {
   if (backButton) {
     backButton.addEventListener(
       "click",
-      () => navigateTo("plants")
+      () =>
+        navigateTo("plants")
     );
   }
 }
@@ -1560,11 +2136,19 @@ async function renderGenealogy(uid) {
   if (!uid) {
     container.innerHTML = `
       <div class="empty-state">
-        <div class="empty-icon">🌳</div>
-        <h3>尚未選擇植物</h3>
+
+        <div class="empty-icon">
+          🌳
+        </div>
+
+        <h3>
+          尚未選擇植物
+        </h3>
+
         <p>
           請從植物圖鑑選擇一株植物查看親緣關係。
         </p>
+
       </div>
     `;
 
@@ -1573,7 +2157,8 @@ async function renderGenealogy(uid) {
 
   const plant =
     state.plants.find(
-      item => item.uid === uid
+      item =>
+        item.uid === uid
     );
 
   if (!plant) {
@@ -1587,17 +2172,29 @@ async function renderGenealogy(uid) {
   }
 
   const tree =
-    await buildGenealogyTree(uid);
+    await buildGenealogyTree(
+      uid
+    );
 
   if (!tree) {
     container.innerHTML = `
       <div class="empty-state">
-        <div class="empty-icon">🌱</div>
-        <h3>尚無親緣資料</h3>
+
+        <div class="empty-icon">
+          🌱
+        </div>
+
+        <h3>
+          尚無親緣資料
+        </h3>
+
         <p>
-          ${escapeHtml(plant.name)}
+          ${escapeHtml(
+            plant.name
+          )}
           目前還沒有建立親緣關係。
         </p>
+
       </div>
     `;
 
@@ -1610,13 +2207,20 @@ async function renderGenealogy(uid) {
       <div class="section-header">
 
         <div>
+
           <h2>
-            🌳 ${escapeHtml(plant.name)}
+            🌳 ${escapeHtml(
+              plant.name
+            )}
           </h2>
 
           <p>
-            UID：${escapeHtml(plant.uid)}
+            UID：
+            ${escapeHtml(
+              plant.uid
+            )}
           </p>
+
         </div>
 
         <div class="section-actions">
@@ -1641,7 +2245,9 @@ async function renderGenealogy(uid) {
 
       <div class="genealogy-wrapper">
 
-        ${renderGenealogyNode(tree)}
+        ${renderGenealogyNode(
+          tree
+        )}
 
       </div>
 
@@ -1658,7 +2264,10 @@ async function renderGenealogy(uid) {
       "click",
       async () => {
         navigateTo("timeline");
-        await renderPlantTimeline(uid);
+
+        await renderPlantTimeline(
+          uid
+        );
       }
     );
   }
@@ -1671,7 +2280,8 @@ async function renderGenealogy(uid) {
   if (backButton) {
     backButton.addEventListener(
       "click",
-      () => navigateTo("plants")
+      () =>
+        navigateTo("plants")
     );
   }
 }
@@ -1694,11 +2304,19 @@ function renderLocations() {
   if (!state.locations.length) {
     container.innerHTML = `
       <div class="empty-state">
-        <div class="empty-icon">📍</div>
-        <h3>尚無場域</h3>
+
+        <div class="empty-icon">
+          📍
+        </div>
+
+        <h3>
+          尚無場域
+        </h3>
+
         <p>
           建立陽台、溫室、庭院或其他照護區域。
         </p>
+
       </div>
     `;
 
@@ -1716,7 +2334,8 @@ function createLocationCard(location) {
   const plantCount =
     state.plants.filter(
       plant =>
-        plant.locationId === location.id
+        plant.locationId ===
+        location.id
     ).length;
 
   return `
@@ -1725,8 +2344,11 @@ function createLocationCard(location) {
       <div class="location-header">
 
         <div>
+
           <h3>
-            📍 ${escapeHtml(location.name)}
+            📍 ${escapeHtml(
+              location.name
+            )}
           </h3>
 
           ${
@@ -1746,6 +2368,7 @@ function createLocationCard(location) {
               `
               : ""
           }
+
         </div>
 
         <span class="location-count">
@@ -1761,7 +2384,9 @@ function createLocationCard(location) {
             ? `
               <div>
                 ☀️ 光照：
-                ${escapeHtml(location.light)}
+                ${escapeHtml(
+                  location.light
+                )}
               </div>
             `
             : ""
@@ -1785,7 +2410,9 @@ function createLocationCard(location) {
             ? `
               <div>
                 🌧️ 遮雨：
-                ${escapeHtml(location.rain)}
+                ${escapeHtml(
+                  location.rain
+                )}
               </div>
             `
             : ""
@@ -1797,7 +2424,9 @@ function createLocationCard(location) {
         location.notes
           ? `
             <p class="location-notes">
-              ${escapeHtml(location.notes)}
+              ${escapeHtml(
+                location.notes
+              )}
             </p>
           `
           : ""
@@ -1808,7 +2437,9 @@ function createLocationCard(location) {
         <button
           class="btn btn-secondary btn-small"
           data-location-action="edit"
-          data-id="${escapeHtml(location.id)}"
+          data-id="${escapeHtml(
+            location.id
+          )}"
         >
           編輯
         </button>
@@ -1816,7 +2447,9 @@ function createLocationCard(location) {
         <button
           class="btn btn-danger btn-small"
           data-location-action="delete"
-          data-id="${escapeHtml(location.id)}"
+          data-id="${escapeHtml(
+            location.id
+          )}"
         >
           刪除
         </button>
@@ -1850,11 +2483,15 @@ document.addEventListener(
     const id =
       button.dataset.id;
 
-    if (action === "edit") {
+    if (
+      action === "edit"
+    ) {
       editLocation(id);
     }
 
-    if (action === "delete") {
+    if (
+      action === "delete"
+    ) {
       await deleteLocation(id);
     }
   }
@@ -1864,7 +2501,8 @@ document.addEventListener(
 function editLocation(id) {
   const location =
     state.locations.find(
-      item => item.id === id
+      item =>
+        item.id === id
     );
 
   if (!location) {
@@ -1940,7 +2578,8 @@ function editLocation(id) {
 async function deleteLocation(id) {
   const location =
     state.locations.find(
-      item => item.id === id
+      item =>
+        item.id === id
     );
 
   if (!location) {
@@ -1953,7 +2592,9 @@ async function deleteLocation(id) {
         plant.locationId === id
     );
 
-  if (usingPlants.length) {
+  if (
+    usingPlants.length
+  ) {
     const confirmed =
       window.confirm(
         `目前有 ${usingPlants.length} 株植物使用此場域。\n\n刪除後這些植物將變成「未指定場域」。\n\n確定繼續嗎？`
@@ -1963,8 +2604,12 @@ async function deleteLocation(id) {
       return;
     }
 
-    for (const plant of usingPlants) {
-      plant.locationId = "";
+    for (
+      const plant of usingPlants
+    ) {
+      plant.locationId =
+        "";
+
       plant.updatedAt =
         new Date().toISOString();
 
@@ -1991,7 +2636,9 @@ async function deleteLocation(id) {
 
   await reloadAndRender();
 
-  showToast("場域已刪除");
+  showToast(
+    "場域已刪除"
+  );
 }
 
 
@@ -2040,7 +2687,9 @@ async function renderTimelinePage() {
     return;
   }
 
-  if (state.selectedPlantUid) {
+  if (
+    state.selectedPlantUid
+  ) {
     await renderPlantTimeline(
       state.selectedPlantUid
     );
@@ -2085,7 +2734,8 @@ async function renderTimelinePage() {
   if (button) {
     button.addEventListener(
       "click",
-      () => navigateTo("plants")
+      () =>
+        navigateTo("plants")
     );
   }
 }
@@ -2107,7 +2757,9 @@ async function renderGenealogyPage() {
 ========================================================= */
 
 function renderCurrentPage() {
-  switch (state.currentPage) {
+  switch (
+    state.currentPage
+  ) {
 
     case "dashboard":
       renderDashboard();
@@ -2142,14 +2794,22 @@ function renderCurrentPage() {
 
 function renderAll() {
   renderDashboard();
+
   renderPlants();
+
   renderLocations();
 
-  if (state.currentPage === "timeline") {
+  if (
+    state.currentPage ===
+    "timeline"
+  ) {
     renderTimelinePage();
   }
 
-  if (state.currentPage === "genealogy") {
+  if (
+    state.currentPage ===
+    "genealogy"
+  ) {
     renderGenealogyPage();
   }
 }
@@ -2209,14 +2869,19 @@ async function reloadAndRender() {
 
 function showToast(message) {
   const toast =
-    document.getElementById("toast");
+    document.getElementById(
+      "toast"
+    );
 
   const messageElement =
     document.getElementById(
       "toastMessage"
     );
 
-  if (!toast || !messageElement) {
+  if (
+    !toast ||
+    !messageElement
+  ) {
     console.log(message);
     return;
   }
@@ -2224,7 +2889,9 @@ function showToast(message) {
   messageElement.textContent =
     message;
 
-  toast.classList.add("show");
+  toast.classList.add(
+    "show"
+  );
 
   clearTimeout(
     showToast.timer
@@ -2232,7 +2899,9 @@ function showToast(message) {
 
   showToast.timer =
     setTimeout(() => {
-      toast.classList.remove("show");
+      toast.classList.remove(
+        "show"
+      );
     }, 2500);
 }
 
@@ -2272,7 +2941,10 @@ function registerServiceWorker() {
    工具函式
 ========================================================= */
 
-function setText(id, value) {
+function setText(
+  id,
+  value
+) {
   const element =
     document.getElementById(id);
 
@@ -2283,7 +2955,10 @@ function setText(id, value) {
 }
 
 
-function setValue(id, value) {
+function setValue(
+  id,
+  value
+) {
   const element =
     document.getElementById(id);
 
@@ -2302,12 +2977,17 @@ function translateLevel(level) {
     max: "成熟"
   };
 
-  return map[level] || level;
+  return (
+    map[level] ||
+    level
+  );
 }
 
 
 function escapeHtml(value) {
-  return String(value ?? "")
+  return String(
+    value ?? ""
+  )
     .replaceAll(
       "&",
       "&amp;"
